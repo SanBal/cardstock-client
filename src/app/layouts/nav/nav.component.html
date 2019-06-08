@@ -1,0 +1,7 @@
+<nav class="navbar navbar-dark bg-dark">
+  <ngb-tabset type="pills">
+    <ngb-tab *ngFor="let tab of tabs" id="{{tab.id}}" title="{{tab.title}}">
+      {{tab.title}}
+    </ngb-tab>
+  </ngb-tabset>
+</nav>
