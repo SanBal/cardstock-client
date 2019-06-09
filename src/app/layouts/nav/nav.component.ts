@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {NgbTabChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav',
@@ -7,11 +9,16 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavComponent implements OnInit {
   tabs = [];
-  constructor() {
+  constructor(private router: Router) {
     this.initializeTabs()
   }
 
   ngOnInit() {}
+
+  onTabChange(event: NgbTabChangeEvent) {
+    const tabId = this.tabs.find(tab => event.nextId === tab.id).id;
+    return this.router.navigateByUrl(tabId)
+  }
 
   private initializeTabs() {
     const tabTitles = ["Dashboard", "Cards"];

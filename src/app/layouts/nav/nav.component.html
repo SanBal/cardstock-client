@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark">
-  <ngb-tabset type="pills">
+  <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
     <ngb-tab *ngFor="let tab of tabs" id="{{tab.id}}" title="{{tab.title}}">
       {{tab.title}}
     </ngb-tab>
