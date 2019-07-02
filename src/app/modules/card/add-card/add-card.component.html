@@ -3,26 +3,26 @@
     Add Card
   </div>
   <div class="card-body">
-    <form>
+    <form [formGroup]="addCardForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="card-name">Name</label>
-        <input id="card-name" class="form-control" type="text" required>
+        <input id="card-name" class="form-control" type="text" formControlName="name" required>
       </div>
       <div class="form-row">
         <div class="form group col-md-6">
           <label for="card-type">Type</label>
-          <select id="card-type" class="form-control">
+          <select id="card-type" class="form-control" formControlName="type">
             <option *ngFor="let type of types">{{type}}</option>
           </select>
         </div>
         <div class="form-group col-md-6">
           <label for="card-rarity">Rarity</label>
-          <select id="card-rarity" class="form-control">
+          <select id="card-rarity" class="form-control" formControlName="rarity">
             <option *ngFor="let rarity of rarities">{{rarity}}</option>
           </select>
         </div>
       </div>
-      <button class="btn btn-success">Save</button>
+      <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
     </form>
   </div>
 </div>
