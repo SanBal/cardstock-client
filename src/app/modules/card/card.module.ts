@@ -1,7 +1,11 @@
 import {NgModule} from '@angular/core';
+import {CardRoutingModule} from "./card-routing.module";
+import {CardComponent} from './card.component';
 
 @NgModule({
-  declarations: [],
-  imports: []
+  declarations: [CardComponent],
+  imports: [
+    CardRoutingModule
+  ]
 })
 export class CardModule {}
