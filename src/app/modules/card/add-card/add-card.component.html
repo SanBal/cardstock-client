@@ -23,33 +23,7 @@
           </select>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="monster-type">Monster Type</label>
-          <select id="monster-type" class="form-control" formControlName="monsterType">
-            <option *ngFor="let monsterType of monsterTypes">{{monsterType}}</option>
-          </select>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="monster-level">Level</label>
-          <br/>
-          <ngb-rating id="monster-level" max="12" formControlName="level">
-            <ng-template let-fill="fill">
-              <span class="star" [class.filled]="fill === 100">&#9733;</span>
-            </ng-template>
-          </ngb-rating>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="monster-atk">ATK</label>
-          <input id="monster-atk" class="form-control" type="number" value="0" formControlName="atk" required>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="monster-def">DEF</label>
-          <input id="monster-def" class="form-control" type="number" value="0" formControlName="def" required>
-        </div>
-      </div>
+      <app-monster-card-infos [addCardForm]="addCardForm"></app-monster-card-infos>
       <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
     </form>
   </div>
