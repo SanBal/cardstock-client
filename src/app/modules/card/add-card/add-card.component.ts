@@ -9,8 +9,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class AddCardComponent implements OnInit {
   addCardForm: FormGroup;
 
-  // Options for 'type' and 'rarity' dropdown menus
-  types = ["Monster", "Spell", "Trap"];
+  // Options for 'card-type', 'monster-type' and 'rarity' dropdown menus
+  cardTypes = ["Monster", "Spell", "Trap"];
+  monsterTypes = ["Aqua", "Dinosaurier", "Donner", "Drache", "Fee", "Fels", "Fisch", "Göttliches Ungeheuer", "" +
+  "Geflügeltes Ungeheuer", "Hexer", "Insekt", "Krieger", "Maschine", "Pflanze"];
   rarities = ["Common", "Rare", "Super Rare", "Starfoil", "Super Rare", "Ultra Rare", "Secret Rare"];
 
   constructor(private formBuilder: FormBuilder) { }
@@ -19,8 +21,12 @@ export class AddCardComponent implements OnInit {
     // Initialize form with validators
     this.addCardForm = this.formBuilder.group({
       name: ['', Validators.required],
-      type: [this.types[0], Validators.required],
-      rarity: [this.rarities[0], Validators.required]
+      cardType: [this.cardTypes[0], Validators.required],
+      rarity: [this.rarities[0], Validators.required],
+      monsterType: ['', Validators.required],
+      level: [0, Validators.required],
+      atk: [0, Validators.required],
+      def: [0, Validators.required]
     })
   }
 

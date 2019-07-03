@@ -1,8 +1,9 @@
 <div class="card">
   <div class="card-header">
-    Add Card
+    <span><i class="fas fa-plus-square fa-2x" style="vertical-align: middle;"></i>&nbsp; Add Card</span>
   </div>
   <div class="card-body">
+    <h5 class="card-title">Card Details</h5>
     <form [formGroup]="addCardForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="card-name">Name</label>
@@ -10,9 +11,9 @@
       </div>
       <div class="form-row">
         <div class="form group col-md-6">
-          <label for="card-type">Type</label>
-          <select id="card-type" class="form-control" formControlName="type">
-            <option *ngFor="let type of types">{{type}}</option>
+          <label for="card-type">Card Type</label>
+          <select id="card-type" class="form-control" formControlName="cardType">
+            <option *ngFor="let cardType of cardTypes">{{cardType}}</option>
           </select>
         </div>
         <div class="form-group col-md-6">
@@ -20,6 +21,33 @@
           <select id="card-rarity" class="form-control" formControlName="rarity">
             <option *ngFor="let rarity of rarities">{{rarity}}</option>
           </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="monster-type">Monster Type</label>
+          <select id="monster-type" class="form-control" formControlName="monsterType">
+            <option *ngFor="let monsterType of monsterTypes">{{monsterType}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="monster-level">Level</label>
+          <br/>
+          <ngb-rating id="monster-level" max="12" formControlName="level">
+            <ng-template let-fill="fill">
+              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="monster-atk">ATK</label>
+          <input id="monster-atk" class="form-control" type="number" value="0" formControlName="atk" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="monster-def">DEF</label>
+          <input id="monster-def" class="form-control" type="number" value="0" formControlName="def" required>
         </div>
       </div>
       <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
