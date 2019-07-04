@@ -12,7 +12,8 @@
       <div class="form-row">
         <div class="form group col-md-6">
           <label for="card-type">Card Type</label>
-          <select id="card-type" class="form-control" formControlName="cardType">
+          <select id="card-type" class="form-control" formControlName="cardType"
+                  (change)="onCardTypeChange($event)">
             <option *ngFor="let cardType of cardTypes">{{cardType}}</option>
           </select>
         </div>
@@ -23,7 +24,19 @@
           </select>
         </div>
       </div>
-      <app-monster-card-infos [addCardForm]="addCardForm"></app-monster-card-infos>
+      <app-monster-card-infos *ngIf="showMonsterInfos" [addCardForm]="addCardForm"></app-monster-card-infos>
+      <div *ngIf="showSpellInfos" class="form-group">
+        <label for="spell-type">Spell Type</label>
+        <select id="spell-type" class="form-control" formControlName="spellType">
+          <option *ngFor="let spellType of spellTypes">{{spellType}}</option>
+        </select>
+      </div>
+      <div *ngIf="showTrapInfos" class="form-group">
+        <label for="trap-type">Trap Type</label>
+        <select id="trap-type" class="form-control" formControlName="trapType">
+          <option *ngFor="let trapType of trapTypes">{{trapType}}</option>
+        </select>
+      </div>
       <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
     </form>
   </div>
