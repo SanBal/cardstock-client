@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CardService} from "../../../core/services/card.service";
+import {AbstractCard} from "../../../core/models/abstract-card";
+import {MonsterCard} from "../../../core/models/monster-card";
+import {SpellCard} from "../../../core/models/spell-card";
+import {TrapCard} from "../../../core/models/trap-card";
 
 @Component({
   selector: 'app-add-card',
   templateUrl: './add-card.component.html',
-  styleUrls: ['./add-card.component.scss']
+  styleUrls: ['./add-card.component.scss'],
 })
 export class AddCardComponent implements OnInit {
   addCardForm: FormGroup;
@@ -20,7 +25,7 @@ export class AddCardComponent implements OnInit {
   trapTypes = ["Konter", ...this.spellTypes.slice(1, 3)];
   rarities = ["Common", "Rare", "Super Rare", "Starfoil", "Super Rare", "Ultra Rare", "Secret Rare"];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private cardService: CardService) {
   }
 
   ngOnInit() {
@@ -35,8 +40,25 @@ export class AddCardComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log("TODO submit");
-    console.log(this.addCardForm)
+    let card: AbstractCard;
+    const value = this.addCardForm.value;
+    switch (value.cardType) {
+      case "Monster":
+        card = new MonsterCard(value.name, value.rarity, value.monsterType, value.level, value.atk, value.def);
+        break;
+      case "Spell":
+        card = new SpellCard(value.name, value.rarity, value.spellType);
+        break;
+      case "Trap":
+        card = new TrapCard(value.name, value.rarity, value.trapType);
+        break;
+    }
+
+    if(card == null){
+      // TODO show throw warning message
+    }
+
+    this.cardService.addCard(card);
   }
 
   onCardTypeChange(event: Event) {
