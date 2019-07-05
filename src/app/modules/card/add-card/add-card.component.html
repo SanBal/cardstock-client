@@ -37,7 +37,16 @@
           <option *ngFor="let trapType of trapTypes">{{trapType}}</option>
         </select>
       </div>
-      <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <button class="btn btn-success" [disabled]="!addCardForm.valid">Save</button>
+        </div>
+        <div class="form-group col-md-10">
+          <ngb-alert *ngIf="alertMessage" type="{{alertType}}" (close)="alertMessage = null">
+            <div [innerHTML]="alertMessage"></div>
+          </ngb-alert>
+        </div>
+      </div>
     </form>
   </div>
 </div>

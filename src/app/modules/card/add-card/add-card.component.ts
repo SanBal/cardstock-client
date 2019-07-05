@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CardService} from "../../../core/services/card.service";
 import {AbstractCard} from "../../../core/models/abstract-card";
 import {MonsterCard} from "../../../core/models/monster-card";
 import {SpellCard} from "../../../core/models/spell-card";
 import {TrapCard} from "../../../core/models/trap-card";
+import {Subject} from "rxjs";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-card',
@@ -12,6 +14,8 @@ import {TrapCard} from "../../../core/models/trap-card";
   styleUrls: ['./add-card.component.scss'],
 })
 export class AddCardComponent implements OnInit {
+  private subjectAlert = new Subject<string>();
+
   addCardForm: FormGroup;
 
   // Flags to show/hide corresponding card type infos
@@ -25,6 +29,9 @@ export class AddCardComponent implements OnInit {
   trapTypes = ["Konter", ...this.spellTypes.slice(1, 3)];
   rarities = ["Common", "Rare", "Super Rare", "Starfoil", "Super Rare", "Ultra Rare", "Secret Rare"];
 
+  alertType = "success";
+  alertMessage = "";
+
   constructor(private formBuilder: FormBuilder, private cardService: CardService) {
   }
 
@@ -36,10 +43,17 @@ export class AddCardComponent implements OnInit {
       rarity: [this.rarities[0], Validators.required],
       spellType: [this.spellTypes[0], Validators.required],
       trapType: [this.trapTypes[0], Validators.required],
-    })
+    });
+
+    // When new message is emitted set is as alert message
+    this.subjectAlert.subscribe(message => this.alertMessage = message);
+
+    // After five seconds dismiss alert
+    this.subjectAlert.pipe(debounceTime(5000))
+      .subscribe(() => this.alertMessage = null);
   }
 
-  onSubmit(){
+  onSubmit() {
     let card: AbstractCard;
     const value = this.addCardForm.value;
     switch (value.cardType) {
@@ -54,11 +68,12 @@ export class AddCardComponent implements OnInit {
         break;
     }
 
-    if(card == null){
-      // TODO show throw warning message
-    }
-
-    this.cardService.addCard(card);
+    this.cardService.addCard(card)
+      .subscribe(response => {
+        this.displayAlert(201, `Card has been created with id <strong>${response.id}</strong>!`);
+      }, error => {
+        this.displayAlert(error.status, error.message);
+      })
   }
 
   onCardTypeChange(event: Event) {
@@ -71,10 +86,15 @@ export class AddCardComponent implements OnInit {
       this.showSpellInfos = true;
       this.showMonsterInfos = false;
       this.showTrapInfos = false;
-    }else if (cardType === "Trap") {
+    } else if (cardType === "Trap") {
       this.showTrapInfos = true;
       this.showMonsterInfos = false;
       this.showSpellInfos = false;
     }
+  }
+
+  private displayAlert(status, message) {
+    this.alertType = status === 201 ? "success" : "danger";
+    this.subjectAlert.next(message);
   }
 }
