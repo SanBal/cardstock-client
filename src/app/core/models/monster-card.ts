@@ -1,12 +1,12 @@
 import {AbstractCard} from "./abstract-card";
 
 export class MonsterCard extends AbstractCard {
-  readonly type: string;
-  readonly level: number;
-  readonly atk: number;
-  readonly defense: number;
+  type: string;
+  level: number;
+  atk: number;
+  defense: number;
 
-  constructor(name: string, rarity: string, type: string, level: number, atk: number, def: number) {
+  constructor(name?: string, rarity?: string, type?: string, level?: number, atk?: number, def?: number) {
     super(name, rarity);
     this.type = type;
     this.level = level;

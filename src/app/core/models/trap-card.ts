@@ -1,9 +1,9 @@
 import {AbstractCard} from "./abstract-card";
 
 export class TrapCard extends AbstractCard {
-  readonly type: string;
+  type: string;
 
-  constructor(name: string, rarity: string, type: string) {
+  constructor(name?: string, rarity?: string, type?: string) {
     super(name, rarity);
     this.type = type;
   }
