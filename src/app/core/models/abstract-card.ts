@@ -4,7 +4,7 @@ export abstract class AbstractCard{
   rarity: string;
 
   // Needed for server to determine the right card model class
-  protected resourcetype: string;
+  resourcetype: string;
 
   protected constructor(name?: string, rarity?: string) {
     this.name = name;

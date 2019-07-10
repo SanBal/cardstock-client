@@ -4,12 +4,14 @@ import {CardRoutingModule} from "./card-routing.module";
 import {CardComponent} from './card.component';
 import {SharedModule} from "../../shared/shared.module";
 import {MonsterCardInfosComponent} from './add-card/monster-card-infos/monster-card-infos.component';
+import {CardsTableComponent} from './overview/cards-table/cards-table.component';
 
 @NgModule({
   declarations: [
     CardComponent,
     AddCardComponent,
-    MonsterCardInfosComponent
+    MonsterCardInfosComponent,
+    CardsTableComponent
   ],
   imports: [
     CardRoutingModule,

@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header">
+    <span><i class="fas fa-table fa-2x" style="vertical-align: middle;"></i>&nbsp; {{title}}</span>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{this.title.split(" ", 2)[0]}}</h5>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Rarity</th>
+        <th *ngFor="let colName of colNames" scope="col">{{colName}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let card of cards | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+        <th>{{i + 1 + (page - 1) * pageSize}}</th>
+        <td>{{card.name}}</td>
+        <td>{{card.type}}</td>
+        <td>{{card.rarity}}</td>
+
+        <!-- Angular doesn't support more than one structural directive on same element -->
+        <ng-container *ngIf="card.resourcetype === 'MonsterCard'">
+          <td *ngFor="let monsterCardProp of ['level', 'atk', 'defense']">{{card[monsterCardProp]}}</td>
+        </ng-container>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="cards.length" [(page)]="page" [pageSize]="pageSize">
+      </ngb-pagination>
+    </div>
+  </div>
+</div>
