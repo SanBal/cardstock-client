@@ -1,24 +1,19 @@
-import {AbstractCard} from "./abstract-card";
+import {Card, CardType} from "./card";
 
-export class MonsterCard extends AbstractCard {
-  type: string;
-  level: number;
-  atk: number;
-  defense: number;
+export class MonsterCard extends Card {
+  readonly type: string;
+  readonly level: number;
+  readonly atk: number;
+  readonly defense: number;
 
-  constructor(name?: string, rarity?: string, type?: string, level?: number, atk?: number, def?: number) {
-    super(name, rarity);
-    this.type = type;
+  constructor(name: string, type: string, rarity: string, level: number, atk: number, def: number) {
+    super(name, CardType.MonsterCard, type, rarity);
     this.level = level;
     this.atk = atk;
     this.defense = def;
   }
 
   public toString() {
-    return `MonsterCard: (name: ${this.name}, type: ${this.type}, rarity: ${this.rarity}, level: ${this.level}, atk: ${this.atk}, def: ${this.defense})`;
-  }
-
-  protected setResourceType() {
-    this.resourcetype = "MonsterCard"
+    return `MonsterCard: (name: ${this.name}, resourcetype: ${this.resourcetype}, type: ${this.type}, rarity: ${this.rarity}, level: ${this.level}, atk: ${this.atk}, def: ${this.defense})`;
   }
 }

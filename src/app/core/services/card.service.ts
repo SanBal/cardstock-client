@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AbstractCard} from "../models/abstract-card";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {MonsterCard} from "../models/monster-card";
+import {Card} from "../models/card";
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +13,11 @@ export class CardService {
   constructor(private http: HttpClient) {
   }
 
-  addCard(card: AbstractCard): Observable<any> {
+  addCard(card: Card): Observable<any> {
     return this.http.post(CardService.URL_CARDSTOCK_SERVER, card)
   }
 
-  getTypeCards<T extends AbstractCard>(type: new () => T): Observable<T[]> {
-    const cardType = type.name === "MonsterCard" ? "monster" : type.name === "SpellCard" ? "spell" : "trap";
+  getTypeCards<T extends Card>(type: new () => T, cardType: "monster" | "spell" | "trap"): Observable<T[]> {
     return this.http.get(`${CardService.URL_CARDSTOCK_SERVER}${cardType}`)
       .pipe(
         // Map response card items to objects of type 'T'

@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CardService} from "../../../core/services/card.service";
-import {AbstractCard} from "../../../core/models/abstract-card";
 import {MonsterCard} from "../../../core/models/monster-card";
-import {SpellCard} from "../../../core/models/spell-card";
-import {TrapCard} from "../../../core/models/trap-card";
 import {Subject} from "rxjs";
 import {debounceTime} from "rxjs/operators";
+import {Card, CardType} from "../../../core/models/card";
 
 @Component({
   selector: 'app-add-card',
@@ -21,7 +19,7 @@ export class AddCardComponent implements OnInit {
   // Flags to show/hide corresponding card type infos
   showMonsterInfos = true;
   showSpellInfos = false;
-  showTrapInfos: boolean;
+  showTrapInfos = false;
 
   // Options for dropdown menus
   cardTypes = ["Monster", "Spell", "Trap"];
@@ -54,17 +52,17 @@ export class AddCardComponent implements OnInit {
   }
 
   onSubmit() {
-    let card: AbstractCard;
+    let card: Card;
     const value = this.addCardForm.value;
     switch (value.cardType) {
       case "Monster":
-        card = new MonsterCard(value.name, value.rarity, value.monsterType, value.level, value.atk, value.def);
+        card = new MonsterCard(value.name, value.monsterType, value.rarity, value.level, value.atk, value.def);
         break;
       case "Spell":
-        card = new SpellCard(value.name, value.rarity, value.spellType);
+        card = new Card(value.name, CardType.SpellCard, value.spellType, value.rarity);
         break;
       case "Trap":
-        card = new TrapCard(value.name, value.rarity, value.trapType);
+        card = new Card(value.name, CardType.TrapCard, value.trapType, value.rarity);
         break;
     }
 

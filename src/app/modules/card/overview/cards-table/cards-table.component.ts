@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CardService} from "../../../../core/services/card.service";
 import {MonsterCard} from "../../../../core/models/monster-card";
-import {AbstractCard} from "../../../../core/models/abstract-card";
-import {SpellCard} from "../../../../core/models/spell-card";
+import {Card} from "../../../../core/models/card";
 
 @Component({
   selector: 'app-cards-table',
@@ -13,29 +12,28 @@ export class CardsTableComponent implements OnInit {
   @Input() title: string;
   @Input() colNames = [];
 
-  cards: AbstractCard[] = [];
+  cards: Card[] = [];
 
   // Pagination variables
   page = 1;
   pageSize = 4;
 
-  constructor(private cardService: CardService) {}
+  constructor(private cardService: CardService) {
+  }
 
   ngOnInit() {
-    this.cardService.getTypeCards(this.getCardClassForTitle())
-      .subscribe((cards: AbstractCard[]) => {
+    this.cardService.getTypeCards(this.getCardClassForTitle(), this.getCardTypeForTitle())
+      .subscribe((cards: Card[]) => {
         this.cards = cards;
-        console.log(Object.keys(this.cards[0]))
       });
   }
 
-  private getCardClassForTitle() {
-    let cardClass: any = MonsterCard;
-    if (this.title.toLowerCase().includes("spell")) {
-      cardClass = SpellCard;
-    } else if (this.title.toLowerCase().includes("trap")) {
-      cardClass = SpellCard;
-    }
-    return cardClass;
+  private getCardClassForTitle(): any {
+    return this.title.toLowerCase().includes("monster") ? MonsterCard : Card;
+  }
+
+  private getCardTypeForTitle(): "monster" | "spell" | "trap" {
+    return this.title.toLowerCase().includes("monster") ? "monster" :
+      this.title.toLowerCase().includes("spell") ? "spell" : "trap";
   }
 }
