@@ -3,7 +3,11 @@
     <span><i class="fas fa-table fa-2x" style="vertical-align: middle;"></i>&nbsp; {{title}}</span>
   </div>
   <div class="card-body">
-    <h5 class="card-title">{{this.title.split(" ", 2)[0]}}</h5>
+    <div class="form-group form-inline">
+      <label>
+        <input class="form-control" type="text" [formControl]="searchFormControl"/>
+      </label>
+    </div>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -16,7 +20,7 @@
       </thead>
       <tbody>
       <tr
-        *ngFor="let card of cards | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+        *ngFor="let card of filteredCards | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
         <th>{{i + 1 + (page - 1) * pageSize}}</th>
         <td>{{card.name}}</td>
         <td>{{card.type}}</td>
